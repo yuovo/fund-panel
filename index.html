@@ -372,6 +372,25 @@ select.input{cursor:pointer;}
 .pick-fund:hover{border-color:var(--gold);background:rgba(240,183,63,.07);}
 .pf-name{color:var(--text);font-weight:600;line-height:1.45;word-break:break-all;}
 .pf-meta{color:var(--dim);font-size:11.5px;flex:none;font-family:Consolas,Menlo,monospace;}
+
+/* ---------- 每日参考 ---------- */
+.dist-row{display:grid;grid-template-columns:56px minmax(0,1fr) 46px;gap:8px;align-items:center;margin:5px 0;font-size:12px;}
+.dist-k{color:var(--dim);font-family:Consolas,Menlo,monospace;text-align:right;}
+.dist-track{height:7px;border-radius:4px;background:rgba(140,156,182,.12);overflow:hidden;}
+.dist-track i{display:block;height:100%;border-radius:4px;}
+.dist-v{color:var(--muted);font-family:Consolas,Menlo,monospace;text-align:right;}
+.hot-row{display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(34,48,74,.55);}
+.hot-no{width:18px;color:var(--dim);font-family:Consolas,monospace;flex:none;}
+.hot-no.top{color:var(--gold);font-weight:800;}
+.hot-name{color:var(--text);font-weight:600;}
+.hot-count{margin-left:auto;color:var(--dim);font-size:11.5px;flex:none;}
+.brief-item{padding:9px 0;border-bottom:1px dashed rgba(34,48,74,.55);}
+.brief-item:last-child{border-bottom:0;padding-bottom:0;}
+.brief-time{font-size:11px;color:var(--dim);font-family:Consolas,Menlo,monospace;}
+.brief-title{font-size:13px;line-height:1.65;margin-top:2px;}
+.brief-title a{color:var(--text);}
+.brief-title a:hover{color:var(--gold);}
+.brief-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;}
 .flash-up{animation:fu .7s ease-out;}
 .flash-down{animation:fd .7s ease-out;}
 @keyframes fu{0%{background:rgba(255,77,94,.22);}100%{background:transparent;}}
@@ -537,13 +556,14 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
   <nav class="navbar" id="mainNav">
     <a href="#sec-pool">① 基金池总览</a>
     <a href="#sec-rank">② 基金排行</a>
-    <a href="#sec-picks">③ 板块机会</a>
-    <a href="#sec-sector">④ 板块资金</a>
-    <a href="#sec-nav">⑤ 净值技术面板</a>
-    <a href="#sec-analyze">⑥ 基金买卖分析</a>
-    <a href="#sec-dca">⑦ 定投实验室</a>
-    <a href="#sec-watch">⑧ 自选基金</a>
-    <a href="#sec-method">⑨ 方法与风险</a>
+    <a href="#sec-daily">③ 每日参考</a>
+    <a href="#sec-picks">④ 板块机会</a>
+    <a href="#sec-sector">⑤ 板块资金</a>
+    <a href="#sec-nav">⑥ 净值技术面板</a>
+    <a href="#sec-analyze">⑦ 基金买卖分析</a>
+    <a href="#sec-dca">⑧ 定投实验室</a>
+    <a href="#sec-watch">⑨ 自选基金</a>
+    <a href="#sec-method">⑩ 方法与风险</a>
   </nav>
 </div>
 
@@ -560,18 +580,18 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
         <div class="card">
           <div class="card-head"><div class="card-title">怎么用这一页</div><div class="card-sub">三个高频动作</div></div>
           <div class="list">
-            <div class="li"><span class="dot gold"></span><span><b>搜基金（⑤）</b>：搜索框支持基金代码（161725）、基金全称（招商中证白酒）、拼音首字母（ZSZZBJ）三种输入，下拉里点一下就能出净值曲线与买卖分析。</span></div>
-            <div class="li"><span class="dot blue"></span><span><b>点表格行＝载入</b>：②基金排行、⑧自选基金、⑤右侧重仓股、③板块机会里的建议基金，点任意一行都会把它载入⑤，并自动生成⑥的分析与⑦的定投回测。</span></div>
+            <div class="li"><span class="dot gold"></span><span><b>搜基金（⑥）</b>：搜索框支持基金代码（161725）、基金全称（招商中证白酒）、拼音首字母（ZSZZBJ）三种输入，下拉里点一下就能出净值曲线与买卖分析。</span></div>
+            <div class="li"><span class="dot blue"></span><span><b>点表格行＝载入</b>：②基金排行、⑨自选基金、⑥右侧重仓股、④板块机会里的建议基金，点任意一行都会把它载入⑥，并自动生成⑦的分析与⑧的定投回测。</span></div>
             <div class="li"><span class="dot orange"></span><span><b>看图</b>：在主图上移动鼠标（手机按住拖动）会出现十字光标与浮层：日期、净值、日涨跌、均线、MACD、KDJ、RSI、回撤与当日综合评分。</span></div>
-            <div class="li"><span class="dot gold"></span><span><b>自选</b>：⑤ 图上方有「＋加入自选／－移出自选」；⑧ 里每张卡片都能单独移除、载入或删除。</span></div>
+            <div class="li"><span class="dot gold"></span><span><b>自选</b>：⑥ 图上方有「＋加入自选／－移出自选」；⑨ 里每张卡片都能单独移除、载入或删除。</span></div>
           </div>
         </div>
         <div class="card">
           <div class="card-head"><div class="card-title">数据源与口径（重要）</div><div class="card-sub">看数字前先看这里</div></div>
           <div class="list">
-            <div class="li"><span class="dot blue"></span><span><b>场外基金的「实时」</b>：监管要求之后，第三方平台的<b>盘中实时估值已停止对外提供</b>（接口还在，但估值字段返回空）。所以本页对场外基金展示的是<b>最新已公布净值</b>，并用 ⑤ 右侧的重仓股实时涨跌估算当日方向 —— 估算值单独标注、不冒充净值。</span></div>
-            <div class="li"><span class="dot gold"></span><span><b>场内基金（ETF / LOF）</b>：有真实盘中行情，⑤ 会多出「净值 / 行情」切换和「分时」按钮，行情口径走腾讯的前复权价格 + 成交量，与股票面板同一套规则。</span></div>
-            <div class="li"><span class="dot orange"></span><span><b>净值三种口径</b>：⑤ 可切换「复权净值（默认）/ 单位净值 / 累计净值」。单位净值在分红与份额折算日会跳空（沪深300ETF 分红当天净值从 3.6283 掉到 3.3135，招商白酒 2019 年折算当天从 1.5448 变 1.0000），<b>直接拿它算波动率会得到 47% 这种假数据</b>（真实约 21%）。所以技术分析默认走复权净值，而止损 / 目标这些要照着买的数字，页面会自动换算回单位净值。</span></div>
+            <div class="li"><span class="dot blue"></span><span><b>场外基金的「实时」</b>：监管要求之后，第三方平台的<b>盘中实时估值已停止对外提供</b>（接口还在，但估值字段返回空）。所以本页对场外基金展示的是<b>最新已公布净值</b>，并用 ⑥ 右侧的重仓股实时涨跌估算当日方向 —— 估算值单独标注、不冒充净值。</span></div>
+            <div class="li"><span class="dot gold"></span><span><b>场内基金（ETF / LOF）</b>：有真实盘中行情，⑥ 会多出「净值 / 行情」切换和「分时」按钮，行情口径走腾讯的前复权价格 + 成交量，与股票面板同一套规则。</span></div>
+            <div class="li"><span class="dot orange"></span><span><b>净值三种口径</b>：⑥ 可切换「复权净值（默认）/ 单位净值 / 累计净值」。单位净值在分红与份额折算日会跳空（沪深300ETF 分红当天净值从 3.6283 掉到 3.3135，招商白酒 2019 年折算当天从 1.5448 变 1.0000），<b>直接拿它算波动率会得到 47% 这种假数据</b>（真实约 21%）。所以技术分析默认走复权净值，而止损 / 目标这些要照着买的数字，页面会自动换算回单位净值。</span></div>
             <div class="li"><span class="dot gray"></span><span><b>接口为什么会「异常」</b>：天天基金有两道门 —— 网页版排行榜 / 持仓页校验 Referer（file:// 发不出，直接「无访问权限」），移动端新接口校验 User-Agent（桌面 Chrome 直接「网络繁忙」）。所以本页只用<b>不挑 UA、允许跨域</b>的那几个：东财数据中心报表、pingzhongdata、腾讯行情。若某个源仍显示异常，多半是网络或临时限流，刷新即可。</span></div>
             <div class="li"><span class="dot orange"></span><span><b>重仓股为什么没有「占净值比」</b>：能给出权重的两个持仓接口正好被上面两道门拦住，所以只能拿到前十大重仓股代码，做<b>等权</b>方向判断；权重列直接省掉了，不做假数据。</span></div>
             <div class="li"><span class="dot gray"></span><span><b>非交易日</b>：显示最近一个已公布净值；所有指标、评分、建议都按固定规则计算，不预测涨跌，也不构成投资建议。</span></div>
@@ -599,7 +619,7 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
           <div class="card-title">自选基金速览</div>
           <div class="card-sub">最新净值 / 日涨跌 / 近 1 月 / 近 1 年</div>
           <div class="spacer"></div>
-          <span class="hint">空的话去 ⑧ 添加</span>
+          <span class="hint">空的话去 ⑨ 添加</span>
         </div>
         <div class="tbl-wrap" style="max-height:300px;">
           <table class="tbl" id="poolTable"></table>
@@ -662,10 +682,55 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
     </div>
   </section>
 
-  <!-- ===================== ③ 板块机会 ===================== -->
+  <!-- ===================== ③ 每日参考 ===================== -->
+  <section class="panel" id="sec-daily">
+    <div class="panel-head">
+      <h2><span class="num">③</span>每日参考 · 分布 / 热搜 / 早报 / 尾盘</h2>
+      <span class="tag gold" id="dailyTag">--</span>
+      <span class="tag blue">涨跌分布 + 快讯热度</span>
+      <div class="spacer"></div>
+      <span class="hint" id="dailyHint">--</span>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">全市场基金涨跌分布</div>
+          <div class="card-sub" id="distSub">--</div>
+        </div>
+        <div id="distBox"></div>
+        <div class="mini-note">抽样 4,000 只（按代码均匀取样），用于看今天赚钱效应，不是逐只统计。</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">今日热搜榜</div>
+          <div class="card-sub">快讯提及 × 同名概念板块</div>
+        </div>
+        <div id="hotBox"></div>
+        <div class="mini-note">平台不公开搜索量，这里用「今日快讯里哪个板块被提到最多」作为热搜口径。</div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:14px;">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">VIP 早报</div>
+          <div class="card-sub">重要新闻 → 对应板块 → 可关注的基金</div>
+        </div>
+        <div id="briefBox"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">尾盘参考</div>
+          <div class="card-sub">基于今日收盘数据的一句话结论</div>
+        </div>
+        <div class="list" id="tailBox"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ④ 板块机会 ===================== -->
   <section class="panel" id="sec-picks">
     <div class="panel-head">
-      <h2><span class="num">③</span>今日板块机会 · 买入建议</h2>
+      <h2><span class="num">④</span>今日板块机会 · 买入建议</h2>
       <span class="tag gold" id="pickTag">--</span>
       <span class="tag blue">今日资金 + 5 日趋势 + 同板块基金</span>
       <div class="spacer"></div>
@@ -691,7 +756,7 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
   <!-- ===================== ④ 板块资金流 ===================== -->
   <section class="panel" id="sec-sector">
     <div class="panel-head">
-      <h2><span class="num">④</span>当日板块资金流</h2>
+      <h2><span class="num">⑤</span>当日板块资金流</h2>
       <span class="tag gold" id="sectorTag">--</span>
       <span class="tag blue">概念板块 · 主力净流入</span>
       <div class="spacer"></div>
@@ -715,7 +780,7 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
   <!-- ===================== ⑤ 净值技术面板 ===================== -->
   <section class="panel" id="sec-nav">
     <div class="panel-head">
-      <h2><span class="num">⑤</span>净值技术面板</h2>
+      <h2><span class="num">⑥</span>净值技术面板</h2>
       <span class="tag gold" id="klFundTag">--</span>
       <span class="tag blue" id="klTypeTag" style="display:none;">--</span>
       <span class="tag gray" id="klModeTag" style="display:none;">--</span>
@@ -852,7 +917,7 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
   <!-- ===================== ⑥ 基金买卖分析 ===================== -->
   <section class="panel" id="sec-analyze">
     <div class="panel-head">
-      <h2><span class="num">⑥</span>基金买卖分析（基于净值序列实时计算）</h2>
+      <h2><span class="num">⑦</span>基金买卖分析（基于净值序列实时计算）</h2>
       <span class="tag gold" id="analyzeFundTag">--</span>
       <span class="tag blue" id="analyzeTypeTag" style="display:none;">--</span>
       <span class="hint">趋势 / MACD / KDJ / RSI / 回撤 / 净值分位</span>
@@ -976,7 +1041,7 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
   <!-- ===================== ⑦ 定投实验室 ===================== -->
   <section class="panel" id="sec-dca">
     <div class="panel-head">
-      <h2><span class="num">⑦</span>定投实验室</h2>
+      <h2><span class="num">⑧</span>定投实验室</h2>
       <span class="tag gold">用这只基金的真实历史净值回测</span>
       <span class="tag blue">纯本地计算，不发请求</span>
       <div class="spacer"></div>
@@ -1031,7 +1096,7 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
   <!-- ===================== ⑧ 自选基金 ===================== -->
   <section class="panel" id="sec-watch">
     <div class="panel-head">
-      <h2><span class="num">⑧</span>自选基金</h2>
+      <h2><span class="num">⑨</span>自选基金</h2>
       <span class="tag gold" id="watchPanelTag">--</span>
       <div class="spacer"></div>
       <input class="input" id="watchInput" style="width:270px;" placeholder="输入基金代码 / 名称添加自选" />
@@ -1048,7 +1113,7 @@ table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
   <!-- ===================== ⑨ 方法与风险 ===================== -->
   <section class="panel" id="sec-method">
     <div class="panel-head">
-      <h2><span class="num">⑨</span>方法说明 · 指标口径 · 风险提示</h2>
+      <h2><span class="num">⑩</span>方法说明 · 指标口径 · 风险提示</h2>
       <div class="spacer"></div>
       <span class="hint">评分怎么来的，这里都有出处</span>
     </div>
@@ -2482,6 +2547,7 @@ async function fetchSectorFlow() {
   const outflow = list.filter((x) => x.net < 0).sort((a, b) => a.net - b.net);
   const data = {
     date: date, total: list.length,
+    names: list.map((x) => x.name),
     inflow: inflow.slice(0, 10), outflow: outflow.slice(0, 10),
     stats: {
       inN: inflow.length, outN: outflow.length,
@@ -2592,6 +2658,159 @@ async function buildSectorPicks() {
   };
   PICKS.at = Date.now();
   PICKS.data = data;
+  return data;
+}
+
+/* ============================================================
+   4.7 每日参考：涨跌分布 / 热搜 / 早报 / 尾盘
+   ------------------------------------------------------------
+   涨跌分布：RPT_FUND_RANK 只取 SECURITY_CODE + CHANGE 两列，按代码分页抽样，
+            8 页 × 500 = 4000 只，覆盖全市场 6.5 万只的 6%（页内按代码均匀取）。
+   热搜/早报：东财 7×24 快讯（50 条），把标题+摘要与概念板块名做匹配，
+            统计每个板块被提到多少次 —— 这是「搜索热度」的公开可替代口径。
+   ============================================================ */
+
+const DAILY = { at: 0, data: null };
+
+/** 全市场基金今日涨跌分布（抽样 4000 只） */
+async function fetchDistribution() {
+  const base = 'https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_FUND_RANK' +
+    '&columns=SECURITY_CODE,CHANGE&pageSize=500&sortColumns=SECURITY_CODE&sortTypes=1&pageNumber=';
+  const pages = [1, 17, 33, 50, 66, 82, 98, 115];
+  const res = await Promise.all(pages.map((p) =>
+    fetch(base + p, { cache: 'no-store' }).then((r) => r.json()).catch(() => null)));
+  const vals = [];
+  res.forEach((j) => {
+    ((j && j.result && j.result.data) || []).forEach((d) => {
+      const v = toNum(d.CHANGE);
+      if (Number.isFinite(v)) vals.push(v);
+    });
+  });
+  if (vals.length < 200) throw new Error('分布样本不足');
+
+  const buckets = [
+    { label: '≤-5%', lo: -999, hi: -5 },
+    { label: '-5~-3', lo: -5, hi: -3 },
+    { label: '-3~-2', lo: -3, hi: -2 },
+    { label: '-2~-1', lo: -2, hi: -1 },
+    { label: '-1~0', lo: -1, hi: 0 },
+    { label: '0', lo: 0, hi: 0 },
+    { label: '0~1', lo: 0, hi: 1 },
+    { label: '1~2', lo: 1, hi: 2 },
+    { label: '2~3', lo: 2, hi: 3 },
+    { label: '3~5', lo: 3, hi: 5 },
+    { label: '≥5%', lo: 5, hi: 999 }
+  ];
+  const counts = buckets.map((b) => {
+    if (b.lo === b.hi) return vals.filter((v) => v === 0).length;
+    return vals.filter((v) => v > b.lo && v <= b.hi).length;
+  });
+  const up = vals.filter((v) => v > 0).length;
+  const down = vals.filter((v) => v < 0).length;
+  const flat = vals.length - up - down;
+  return {
+    n: vals.length, buckets: buckets.map((b, i) => ({ label: b.label, count: counts[i] })),
+    up: up, down: down, flat: flat, upRatio: up / vals.length, avg: mean(vals)
+  };
+}
+
+/** 7×24 财经快讯（脚本注入，返回 var ajaxResult） */
+async function fetchNews() {
+  const hit = DATA.news;
+  if (hit && Date.now() - hit.at < 300000) return hit.list;
+  await scriptGlobals('https://newsapi.eastmoney.com/kuaixun/v1/getlist_102_ajaxResult_50_1_.html?rt=' + Date.now(),
+    ['ajaxResult'], null, 15000);
+  const arr = (window.ajaxResult && window.ajaxResult.LivesList) || [];
+  const list = arr.map((x) => ({
+    title: String(x.title || '').trim(),
+    digest: String(x.digest || '').trim(),
+    time: String(x.showtime || '').slice(5, 16),
+    url: x.url_w || x.url_m || ''
+  })).filter((x) => x.title);
+  DATA.news = { at: Date.now(), list: list };
+  return list;
+}
+
+/* 这些是「板块名」但不是「题材」：匹配新闻只会产生噪声 */
+const NEWS_NOISE = /^(深股通|沪股通|融资融券|转融券标的|标普|富时罗素|MSCI|昨日|破净股|高市净率|低价股|高价股|预盈预增|预亏预减|股权转让|举牌|增持|回购|次新股|注册制次新股|创业板综|深成500|上证180|上证50|沪深300|中证500|MSCI中国|机构重仓|基金重仓|QFII重仓|社保重仓|券商重仓|保险重仓|证金持股|养老金|转债标的|AH股|GDR|科创板|北交所|中字头|高股息|红利)/;
+
+/** 新闻 → 板块热度 + 每条新闻命中的板块 */
+function newsTopics(news, sectorNames) {
+  const names = sectorNames.filter((n) => n.length >= 2 && !NEWS_NOISE.test(n));
+  const heat = {};
+  const itemSectors = [];
+  news.forEach((it) => {
+    const text = it.title + ' ' + it.digest;
+    const hit = names.filter((n) => text.indexOf(n) >= 0);
+    itemSectors.push(hit);
+    hit.forEach((n) => { heat[n] = (heat[n] || 0) + 1; });
+  });
+  const words = Object.keys(heat).map((n) => ({ name: n, count: heat[n] }))
+    .sort((a, b) => b.count - a.count).slice(0, 8);
+  return { words: words, itemSectors: itemSectors };
+}
+
+/** 汇总：分布 + 热搜 + 早报 + 尾盘参考 */
+async function buildDaily() {
+  if (DAILY.data && Date.now() - DAILY.at < 300000) return DAILY.data;
+  const res = await Promise.all([
+    fetchDistribution().catch(() => null),
+    fetchNews().catch(() => []),
+    fetchSectorFlow().catch(() => null)
+  ]);
+  const dist = res[0], news = res[1], flow = res[2];
+  const topics = newsTopics(news, (flow && flow.names) || []);
+
+  /* 热搜前 3 个主题配基金（复用板块→基金匹配） */
+  const hot = topics.words.slice(0, 3);
+  const fundLists = await Promise.all(hot.map((w) => fundsForSector(w.name).catch(() => [])));
+  hot.forEach((w, i) => { w.funds = fundLists[i].slice(0, 2); });
+
+  /* 早报：命中了板块、且时间最近的 3 条 */
+  const picked = [];
+  news.forEach((it, i) => {
+    const secs = topics.itemSectors[i] || [];
+    if (secs.length) picked.push({ news: it, sectors: secs.slice(0, 2) });
+  });
+  const brief = picked.slice(0, 3);
+  brief.forEach((b) => {
+    const w = hot.filter((h) => b.sectors.indexOf(h.name) >= 0)[0];
+    b.funds = w ? w.funds : [];
+  });
+  /* 早报里没蹭上热搜主题的，再单独补一次基金（最多补 2 条，控制请求） */
+  const need = brief.filter((b) => !b.funds.length).slice(0, 2);
+  if (need.length) {
+    const extra = await Promise.all(need.map((b) => fundsForSector(b.sectors[0]).catch(() => [])));
+    need.forEach((b, i) => { b.funds = extra[i].slice(0, 1); });
+  }
+
+  /* 尾盘参考：连起来说人话 */
+  const tail = [];
+  if (dist) {
+    tail.push('今日全市场抽样 ' + dist.n.toLocaleString() + ' 只基金，上涨 ' + dist.up + ' 只（' +
+      (dist.upRatio * 100).toFixed(1) + '%）、下跌 ' + dist.down + ' 只，中位涨跌 ' + pct(dist.avg, 2) +
+      (dist.upRatio > 0.6 ? ' —— 普涨格局，别追已涨透的。' : dist.upRatio < 0.4 ? ' —— 普跌格局，尾盘别急着抄底。' : ' —— 涨跌参半，结构性行情。'));
+  }
+  if (flow && flow.stats && flow.stats.top) {
+    tail.push('主力资金最集中在 <b>' + flow.stats.top.name + '</b>（+' + fmtAmt(flow.stats.top.net) + '），' +
+      '流出最多的是 <b>' + (flow.stats.bottom ? flow.stats.bottom.name : '--') + '</b>' +
+      (flow.stats.bottom ? '（' + fmtAmt(flow.stats.bottom.net) + '）' : '') + '。');
+  }
+  if (topics.words.length) {
+    tail.push('消息面热度集中在 <b>' + topics.words.slice(0, 3).map((w) => w.name).join('、') + '</b>，' +
+      '尾盘如果这些方向有资金配合，第二天更容易有溢价。');
+  }
+  if (hot.length && hot[0].funds.length) {
+    tail.push('想参与的话，优先用指数 / 行业基金小仓位试，别在尾盘一次性买满；' +
+      '净值型基金按当日 15:00 前的净值成交，尾盘下单等于押注今天的收盘价。');
+  }
+
+  const data = {
+    at: Date.now(), date: flow ? flow.date : '', dist: dist, hot: hot, brief: brief,
+    tail: tail, newsCount: news.length, topicCount: topics.words.length
+  };
+  DAILY.at = Date.now();
+  DAILY.data = data;
   return data;
 }
 
@@ -3787,7 +4006,7 @@ async function renderPool(force) {
   const codes = UI.watch.slice();
   if (!codes.length) {
     if (tbl) tbl.innerHTML = '<thead><tr><th>名称</th><th>最新净值</th><th>日涨跌</th><th>近1月</th><th>近1年</th></tr></thead>' +
-      '<tbody><tr><td colspan="5" class="dim">还没有自选基金 —— 在 ⑧ 里添加，或在 ⑤ 搜索后点「加入自选」。</td></tr></tbody>';
+      '<tbody><tr><td colspan="5" class="dim">还没有自选基金 —— 在 ⑨ 里添加，或在 ⑥ 搜索后点「加入自选」。</td></tr></tbody>';
     if ($('poolCount')) $('poolCount').textContent = '0';
     if ($('poolUpDown')) $('poolUpDown').textContent = '--';
     if ($('poolAvg')) $('poolAvg').textContent = '--';
@@ -3871,7 +4090,7 @@ function fundTypeOf(code) {
   return '其他';
 }
 
-/* ---------------- ⑤ 净值技术面板（含右侧重仓股） ---------------- */
+/* ---------------- ⑥ 净值技术面板（含右侧重仓股） ---------------- */
 
 /** 取当前显示窗口的序列与指标（指标按完整历史计算，只做切片） */
 function displaySlice() {
@@ -4155,7 +4374,7 @@ function buildKlineHint() {
   return parts.join(' ');
 }
 
-/* ---------------- ⑥ 基金买卖分析（含基金档案） ---------------- */
+/* ---------------- ⑦ 基金买卖分析（含基金档案） ---------------- */
 
 /** 把当前序列算成一份完整分析结果（分析面板共用） */
 function analyzeNow() {
@@ -4220,7 +4439,7 @@ function renderAnalyze() {
     if (tag) tag.textContent = '--';
     if (card) card.className = 'advice neutral';
     if ($('adviceTitle')) $('adviceTitle').textContent = '等待载入基金';
-  if ($('adviceSub')) $('adviceSub').textContent = '在 ⑤ 里搜索并载入一只基金后，这里会自动生成分析。';
+  if ($('adviceSub')) $('adviceSub').textContent = '在 ⑥ 里搜索并载入一只基金后，这里会自动生成分析。';
     if ($('adviceList')) $('adviceList').innerHTML = '';
     ['srTable', 'indTable', 'shortList', 'midList', 'scoreTable', 'scoreAdvice', 'checkGood', 'checkBad', 'plainGrid', 'plainPrices', 'plainWhy'].forEach((id) => {
       const el = $(id);
@@ -4343,7 +4562,7 @@ function renderAnalyze() {
   }
 }
 
-/* ---------------- ⑦ 定投实验室 ---------------- */
+/* ---------------- ⑧ 定投实验室 ---------------- */
 
 function renderDCA() {
   const cards = $('dcaCards'), text = $('dcaText'), hint = $('dcaHint');
@@ -4388,7 +4607,7 @@ function renderDCA() {
     d.worstGap < -0.25 ? '波动大、回撤深，定投能明显摊薄成本，但需要能扛住 ' + pct(d.worstGap * 100, 0) + ' 级别的浮亏，适合长期定投。'
       : d.worstGap > -0.08 ? '波动很小，定投和一次性买入的差别不大，可以考虑直接分批买入省手续费。'
         : '波动中等，定投是稳妥选择，同时保留一笔资金在明显回撤时手动加投。'));
-  lines.push('<b>什么时候该停：</b>跌破 ⑥ 里的中线止损净值 ' + fmtNav(UI.analysis ? UI.analysis.plan.midStop : NaN) +
+  lines.push('<b>什么时候该停：</b>跌破 ⑦ 里的中线止损净值 ' + fmtNav(UI.analysis ? UI.analysis.plan.midStop : NaN) +
     '，或基金规模连续两个季度大幅缩水、基金经理更换时，先停下扣款、重新评估。');
   lines.push('<b>口径：</b>不含申购费与赎回费；按「' + basisLabel() + '」序列模拟扣款' +
     (UI.basis === 'adj' ? '，相当于分红自动再投，这是长期定投的真实收益口径' : '') +
@@ -4502,7 +4721,7 @@ async function renderHold() {
   renderAnalyze();
 }
 
-/* ---------------- ④ 板块资金流 ---------------- */
+/* ---------------- ⑤ 板块资金流 ---------------- */
 
 function sectorRowHtml(x, maxAbs) {
   const w = clamp((Math.abs(x.net) / (maxAbs || 1)) * 100, 2, 100);
@@ -4566,7 +4785,95 @@ async function renderSector() {
   }
 }
 
-/* ---------------- ③ 板块机会（可关注板块 + 建议基金） ---------------- */
+/* ---------------- ③ 每日参考（分布 / 热搜 / 早报 / 尾盘） ---------------- */
+
+function distHtml(d) {
+  const max = Math.max.apply(null, d.buckets.map((b) => b.count)) || 1;
+  return d.buckets.map((b) => {
+    const neg = b.label.indexOf('-') >= 0;
+    const zero = b.label === '0';
+    const col = zero ? 'rgba(140,156,182,.45)'
+      : neg ? 'linear-gradient(90deg,#12c46a,#5be39a)' : 'linear-gradient(90deg,#ff4d5e,#ff8a94)';
+    return '<div class="dist-row"><span class="dist-k">' + b.label + '</span>' +
+      '<span class="dist-track"><i style="width:' + (b.count / max * 100).toFixed(1) + '%;background:' + col + '"></i></span>' +
+      '<span class="dist-v">' + b.count + '</span></div>';
+  }).join('');
+}
+
+function fundChip(f) {
+  return '<div class="pick-fund clickable" data-code="' + esc(f.code) + '">' +
+    '<span class="pf-name">' + esc(f.name) + '</span>' +
+    '<span class="pf-meta">' + esc(fundTypeText(f.type)) + ' · 近1年 ' + pct(f.y1) + '</span></div>';
+}
+
+async function renderDaily() {
+  const tag = $('dailyTag'), hint = $('dailyHint');
+  const distBox = $('distBox'), distSub = $('distSub');
+  const hotBox = $('hotBox'), briefBox = $('briefBox'), tailBox = $('tailBox');
+  if (hint) hint.textContent = '正在汇总全市场分布与今日快讯…';
+  let d;
+  try {
+    d = await buildDaily();
+  } catch (e) {
+    if (hint) hint.textContent = '每日参考暂时不可用：' + (e && e.message ? e.message : '未知错误');
+    if (distBox) distBox.innerHTML = '<div class="hint">未取到数据。</div>';
+    if (hotBox) hotBox.innerHTML = '';
+    if (briefBox) briefBox.innerHTML = '';
+    if (tailBox) tailBox.innerHTML = '';
+    if (tag) { tag.className = 'tag orange'; tag.textContent = '暂无数据'; }
+    return;
+  }
+  if (tag) { tag.className = 'tag gold'; tag.textContent = d.date || '--'; }
+  if (hint) {
+    hint.textContent = '抽样 ' + (d.dist ? d.dist.n : 0).toLocaleString() + ' 只基金 · 快讯 ' +
+      d.newsCount + ' 条 · 更新于 ' + new Date(d.at).toLocaleTimeString('zh-CN');
+  }
+
+  if (distBox) {
+    if (!d.dist) {
+      distBox.innerHTML = '<div class="hint">分布数据没取到。</div>';
+    } else {
+      distBox.innerHTML = distHtml(d.dist);
+      if (distSub) {
+        distSub.innerHTML = '上涨 <b class="up">' + d.dist.up + '</b> · 平盘 <b class="flat">' + d.dist.flat +
+          '</b> · 下跌 <b class="down">' + d.dist.down + '</b> · 平均 <b class="' + pctCls(d.dist.avg) + '">' +
+          pct(d.dist.avg, 2) + '</b>';
+      }
+    }
+  }
+
+  if (hotBox) {
+    hotBox.innerHTML = d.hot.length
+      ? d.hot.concat((d.hot.length < 6 ? [] : [])).map((w, i) => '<div class="hot-row">' +
+          '<span class="hot-no' + (i < 3 ? ' top' : '') + '">' + (i + 1) + '</span>' +
+          '<span class="hot-name">' + esc(w.name) + '</span>' +
+          '<span class="hot-count">' + w.count + ' 次提及</span></div>' +
+          (w.funds && w.funds.length ? '<div class="pick-funds" style="margin:4px 0 8px;">' +
+            w.funds.map(fundChip).join('') + '</div>' : '')).join('')
+      : '<div class="hint">今天快讯里没有命中具体概念板块，换个时段再看。</div>';
+  }
+
+  if (briefBox) {
+    briefBox.innerHTML = d.brief.length
+      ? d.brief.map((b) => '<div class="brief-item">' +
+          '<div class="brief-time">' + esc(b.news.time) + '</div>' +
+          '<div class="brief-title">' + (b.news.url ? '<a href="' + esc(b.news.url) + '" target="_blank" rel="noopener">' : '') +
+            esc(b.news.title) + (b.news.url ? '</a>' : '') + '</div>' +
+          '<div class="brief-tags">' + b.sectors.map((s) => '<span class="tag gold">' + esc(s) + '</span>').join(' ') + '</div>' +
+          (b.funds && b.funds.length
+            ? '<div class="pick-funds" style="margin-top:6px;">' + b.funds.map(fundChip).join('') + '</div>'
+            : '<div class="hint" style="margin-top:5px;">没有同名场外基金，这条只作为板块线索。</div>') +
+          '</div>').join('')
+      : '<div class="hint">今天的快讯没有和概念板块对上，早报暂时为空。</div>';
+  }
+
+  if (tailBox) {
+    tailBox.innerHTML = d.tail.length ? liHtml(d.tail, ['gold', 'blue', 'orange', 'red'])
+      : '<div class="li"><span class="dot"></span><span>数据不全，尾盘参考暂缓。</span></div>';
+  }
+}
+
+/* ---------------- ④ 板块机会（可关注板块 + 建议基金） ---------------- */
 
 function pickSectorHtml(s) {
   const badge = s.confirmed
@@ -4692,7 +4999,7 @@ async function renderRank(force) {
   }
 }
 
-/* ---------------- ⑧ 自选基金 ---------------- */
+/* ---------------- ⑨ 自选基金 ---------------- */
 
 function loadWatch() {
   try {
@@ -4725,7 +5032,7 @@ function renderWatchChips() {
   const el = $('watchChips');
   if (!el) return;
   if (!UI.watch.length) {
-    el.innerHTML = '<span class="hint">还没有自选基金。在 ⑤ 搜索后点「加入自选」，或在下面输入框里直接添加。</span>';
+    el.innerHTML = '<span class="hint">还没有自选基金。在 ⑥ 搜索后点「加入自选」，或在下面输入框里直接添加。</span>';
     return;
   }
   el.innerHTML = UI.watch.map((c) => {
@@ -5930,6 +6237,7 @@ async function init() {
   renderRank(false);
   renderSector();
   renderPicks();
+  renderDaily();
 
   const start = UI.watch.length ? UI.watch[0] : DEFAULT_FUND;
   await loadFund(start, { code: start });
