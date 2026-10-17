@@ -361,6 +361,17 @@ select.input{cursor:pointer;}
 .sec-name{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .sec-net{font-family:Consolas,Menlo,monospace;text-align:right;font-weight:600;}
 .sec-chg{font-family:Consolas,Menlo,monospace;text-align:right;}
+
+/* ---------- 板块机会 ---------- */
+.pick-funds{display:flex;flex-direction:column;gap:6px;margin-top:2px;}
+.pick-fund{
+  display:flex;flex-direction:column;align-items:flex-start;gap:2px;
+  border:1px dashed var(--line2);border-radius:9px;padding:6px 9px;font-size:12.5px;
+  cursor:pointer;transition:.15s;
+}
+.pick-fund:hover{border-color:var(--gold);background:rgba(240,183,63,.07);}
+.pf-name{color:var(--text);font-weight:600;line-height:1.45;word-break:break-all;}
+.pf-meta{color:var(--dim);font-size:11.5px;flex:none;font-family:Consolas,Menlo,monospace;}
 .flash-up{animation:fu .7s ease-out;}
 .flash-down{animation:fd .7s ease-out;}
 @keyframes fu{0%{background:rgba(255,77,94,.22);}100%{background:transparent;}}
@@ -467,12 +478,13 @@ select.input{cursor:pointer;}
   <nav class="navbar" id="mainNav">
     <a href="#sec-pool">① 基金池总览</a>
     <a href="#sec-rank">② 基金排行</a>
-    <a href="#sec-sector">③ 板块资金</a>
-    <a href="#sec-nav">④ 净值技术面板</a>
-    <a href="#sec-analyze">⑤ 基金买卖分析</a>
-    <a href="#sec-dca">⑥ 定投实验室</a>
-    <a href="#sec-watch">⑦ 自选基金</a>
-    <a href="#sec-method">⑧ 方法与风险</a>
+    <a href="#sec-picks">③ 板块机会</a>
+    <a href="#sec-sector">④ 板块资金</a>
+    <a href="#sec-nav">⑤ 净值技术面板</a>
+    <a href="#sec-analyze">⑥ 基金买卖分析</a>
+    <a href="#sec-dca">⑦ 定投实验室</a>
+    <a href="#sec-watch">⑧ 自选基金</a>
+    <a href="#sec-method">⑨ 方法与风险</a>
   </nav>
 </div>
 
@@ -489,18 +501,18 @@ select.input{cursor:pointer;}
         <div class="card">
           <div class="card-head"><div class="card-title">怎么用这一页</div><div class="card-sub">三个高频动作</div></div>
           <div class="list">
-            <div class="li"><span class="dot gold"></span><span><b>搜基金（④）</b>：搜索框支持基金代码（161725）、基金全称（招商中证白酒）、拼音首字母（ZSZZBJ）三种输入，下拉里点一下就能出净值曲线与买卖分析。</span></div>
-            <div class="li"><span class="dot blue"></span><span><b>点表格行＝载入</b>：②基金排行、⑦自选基金、④右侧重仓股，点任意一行都会把它载入④，并自动生成⑤的分析与⑥的定投回测。</span></div>
+            <div class="li"><span class="dot gold"></span><span><b>搜基金（⑤）</b>：搜索框支持基金代码（161725）、基金全称（招商中证白酒）、拼音首字母（ZSZZBJ）三种输入，下拉里点一下就能出净值曲线与买卖分析。</span></div>
+            <div class="li"><span class="dot blue"></span><span><b>点表格行＝载入</b>：②基金排行、⑧自选基金、⑤右侧重仓股、③板块机会里的建议基金，点任意一行都会把它载入⑤，并自动生成⑥的分析与⑦的定投回测。</span></div>
             <div class="li"><span class="dot orange"></span><span><b>看图</b>：在主图上移动鼠标（手机按住拖动）会出现十字光标与浮层：日期、净值、日涨跌、均线、MACD、KDJ、RSI、回撤与当日综合评分。</span></div>
-            <div class="li"><span class="dot gold"></span><span><b>自选</b>：④ 图上方有「＋加入自选／－移出自选」；⑦ 里每张卡片都能单独移除、载入或删除。</span></div>
+            <div class="li"><span class="dot gold"></span><span><b>自选</b>：⑤ 图上方有「＋加入自选／－移出自选」；⑧ 里每张卡片都能单独移除、载入或删除。</span></div>
           </div>
         </div>
         <div class="card">
           <div class="card-head"><div class="card-title">数据源与口径（重要）</div><div class="card-sub">看数字前先看这里</div></div>
           <div class="list">
-            <div class="li"><span class="dot blue"></span><span><b>场外基金的「实时」</b>：监管要求之后，第三方平台的<b>盘中实时估值已停止对外提供</b>（接口还在，但估值字段返回空）。所以本页对场外基金展示的是<b>最新已公布净值</b>，并用 ③ 右侧的重仓股实时涨跌估算当日方向 —— 估算值单独标注、不冒充净值。</span></div>
-            <div class="li"><span class="dot gold"></span><span><b>场内基金（ETF / LOF）</b>：有真实盘中行情，④ 会多出「净值 / 行情」切换和「分时」按钮，行情口径走腾讯的前复权价格 + 成交量，与股票面板同一套规则。</span></div>
-            <div class="li"><span class="dot orange"></span><span><b>净值三种口径</b>：④ 可切换「复权净值（默认）/ 单位净值 / 累计净值」。单位净值在分红与份额折算日会跳空（沪深300ETF 分红当天净值从 3.6283 掉到 3.3135，招商白酒 2019 年折算当天从 1.5448 变 1.0000），<b>直接拿它算波动率会得到 47% 这种假数据</b>（真实约 21%）。所以技术分析默认走复权净值，而止损 / 目标这些要照着买的数字，页面会自动换算回单位净值。</span></div>
+            <div class="li"><span class="dot blue"></span><span><b>场外基金的「实时」</b>：监管要求之后，第三方平台的<b>盘中实时估值已停止对外提供</b>（接口还在，但估值字段返回空）。所以本页对场外基金展示的是<b>最新已公布净值</b>，并用 ⑤ 右侧的重仓股实时涨跌估算当日方向 —— 估算值单独标注、不冒充净值。</span></div>
+            <div class="li"><span class="dot gold"></span><span><b>场内基金（ETF / LOF）</b>：有真实盘中行情，⑤ 会多出「净值 / 行情」切换和「分时」按钮，行情口径走腾讯的前复权价格 + 成交量，与股票面板同一套规则。</span></div>
+            <div class="li"><span class="dot orange"></span><span><b>净值三种口径</b>：⑤ 可切换「复权净值（默认）/ 单位净值 / 累计净值」。单位净值在分红与份额折算日会跳空（沪深300ETF 分红当天净值从 3.6283 掉到 3.3135，招商白酒 2019 年折算当天从 1.5448 变 1.0000），<b>直接拿它算波动率会得到 47% 这种假数据</b>（真实约 21%）。所以技术分析默认走复权净值，而止损 / 目标这些要照着买的数字，页面会自动换算回单位净值。</span></div>
             <div class="li"><span class="dot gray"></span><span><b>接口为什么会「异常」</b>：天天基金有两道门 —— 网页版排行榜 / 持仓页校验 Referer（file:// 发不出，直接「无访问权限」），移动端新接口校验 User-Agent（桌面 Chrome 直接「网络繁忙」）。所以本页只用<b>不挑 UA、允许跨域</b>的那几个：东财数据中心报表、pingzhongdata、腾讯行情。若某个源仍显示异常，多半是网络或临时限流，刷新即可。</span></div>
             <div class="li"><span class="dot orange"></span><span><b>重仓股为什么没有「占净值比」</b>：能给出权重的两个持仓接口正好被上面两道门拦住，所以只能拿到前十大重仓股代码，做<b>等权</b>方向判断；权重列直接省掉了，不做假数据。</span></div>
             <div class="li"><span class="dot gray"></span><span><b>非交易日</b>：显示最近一个已公布净值；所有指标、评分、建议都按固定规则计算，不预测涨跌，也不构成投资建议。</span></div>
@@ -528,7 +540,7 @@ select.input{cursor:pointer;}
           <div class="card-title">自选基金速览</div>
           <div class="card-sub">最新净值 / 日涨跌 / 近 1 月 / 近 1 年</div>
           <div class="spacer"></div>
-          <span class="hint">空的话去 ⑦ 添加</span>
+          <span class="hint">空的话去 ⑧ 添加</span>
         </div>
         <div class="tbl-wrap" style="max-height:300px;">
           <table class="tbl" id="poolTable"></table>
@@ -591,10 +603,36 @@ select.input{cursor:pointer;}
     </div>
   </section>
 
-  <!-- ===================== ③ 板块资金流 ===================== -->
+  <!-- ===================== ③ 板块机会 ===================== -->
+  <section class="panel" id="sec-picks">
+    <div class="panel-head">
+      <h2><span class="num">③</span>今日板块机会 · 买入建议</h2>
+      <span class="tag gold" id="pickTag">--</span>
+      <span class="tag blue">今日资金 + 5 日趋势 + 同板块基金</span>
+      <div class="spacer"></div>
+      <span class="hint" id="pickHint">--</span>
+    </div>
+    <div class="grid g3" id="pickGrid"></div>
+    <div class="card" id="pickWatch" style="margin-top:14px;display:none;">
+      <div class="card-head">
+        <div class="card-title">今日流入但趋势未确认</div>
+        <div class="card-sub">单日脉冲，先观察、别追</div>
+      </div>
+      <div class="list" id="pickWatchList"></div>
+    </div>
+    <div class="todo-note" style="margin-top:12px;">
+      综合分 = 今日净流入 30 + 净占比 20 + 5 日累计 30 + 流入天数 20，按分数取前 4 个净流入板块。<br>
+      <b>趋势确认</b> = 近 5 日累计为正且至少 2 天净流入；<b>反转候选</b> = 今天流入量 ≥ 前 4 天日均流出量的 0.6 倍，属于左侧试探；
+      <b>单日脉冲</b> = 其余（只给数据、不给基金建议，先观察）。<br>
+      基金按板块关键词搜索，优先指数型、再按近 1 年收益排序，规模低于 0.5 亿或净值异动的剔除。
+      板块资金按日更新，盘中不刷新；这是规则化筛选，<b>不构成投资建议</b>。
+    </div>
+  </section>
+
+  <!-- ===================== ④ 板块资金流 ===================== -->
   <section class="panel" id="sec-sector">
     <div class="panel-head">
-      <h2><span class="num">③</span>当日板块资金流</h2>
+      <h2><span class="num">④</span>当日板块资金流</h2>
       <span class="tag gold" id="sectorTag">--</span>
       <span class="tag blue">概念板块 · 主力净流入</span>
       <div class="spacer"></div>
@@ -615,10 +653,10 @@ select.input{cursor:pointer;}
 
 
 
-  <!-- ===================== ④ 净值技术面板 ===================== -->
+  <!-- ===================== ⑤ 净值技术面板 ===================== -->
   <section class="panel" id="sec-nav">
     <div class="panel-head">
-      <h2><span class="num">④</span>净值技术面板</h2>
+      <h2><span class="num">⑤</span>净值技术面板</h2>
       <span class="tag gold" id="klFundTag">--</span>
       <span class="tag blue" id="klTypeTag" style="display:none;">--</span>
       <span class="tag gray" id="klModeTag" style="display:none;">--</span>
@@ -752,10 +790,10 @@ select.input{cursor:pointer;}
     <div class="hint" style="margin-top:4px;">在主图上移动鼠标（手机按住拖动）可看逐日的净值、日涨跌、均线、MACD、KDJ、RSI、回撤与当日综合评分。</div>
   </section>
 
-  <!-- ===================== ⑤ 基金买卖分析 ===================== -->
+  <!-- ===================== ⑥ 基金买卖分析 ===================== -->
   <section class="panel" id="sec-analyze">
     <div class="panel-head">
-      <h2><span class="num">⑤</span>基金买卖分析（基于净值序列实时计算）</h2>
+      <h2><span class="num">⑥</span>基金买卖分析（基于净值序列实时计算）</h2>
       <span class="tag gold" id="analyzeFundTag">--</span>
       <span class="tag blue" id="analyzeTypeTag" style="display:none;">--</span>
       <span class="hint">趋势 / MACD / KDJ / RSI / 回撤 / 净值分位</span>
@@ -876,10 +914,10 @@ select.input{cursor:pointer;}
   </div>
   </section>
 
-  <!-- ===================== ⑥ 定投实验室 ===================== -->
+  <!-- ===================== ⑦ 定投实验室 ===================== -->
   <section class="panel" id="sec-dca">
     <div class="panel-head">
-      <h2><span class="num">⑥</span>定投实验室</h2>
+      <h2><span class="num">⑦</span>定投实验室</h2>
       <span class="tag gold">用这只基金的真实历史净值回测</span>
       <span class="tag blue">纯本地计算，不发请求</span>
       <div class="spacer"></div>
@@ -931,10 +969,10 @@ select.input{cursor:pointer;}
 
   
 
-  <!-- ===================== ⑦ 自选基金 ===================== -->
+  <!-- ===================== ⑧ 自选基金 ===================== -->
   <section class="panel" id="sec-watch">
     <div class="panel-head">
-      <h2><span class="num">⑦</span>自选基金</h2>
+      <h2><span class="num">⑧</span>自选基金</h2>
       <span class="tag gold" id="watchPanelTag">--</span>
       <div class="spacer"></div>
       <input class="input" id="watchInput" style="width:270px;" placeholder="输入基金代码 / 名称添加自选" />
@@ -948,10 +986,10 @@ select.input{cursor:pointer;}
 
   
 
-  <!-- ===================== ⑧ 方法与风险 ===================== -->
+  <!-- ===================== ⑨ 方法与风险 ===================== -->
   <section class="panel" id="sec-method">
     <div class="panel-head">
-      <h2><span class="num">⑧</span>方法说明 · 指标口径 · 风险提示</h2>
+      <h2><span class="num">⑨</span>方法说明 · 指标口径 · 风险提示</h2>
       <div class="spacer"></div>
       <span class="hint">评分怎么来的，这里都有出处</span>
     </div>
@@ -2385,6 +2423,91 @@ async function fetchSectorFlow() {
   return data;
 }
 
+/* ---------------- 4.6 板块机会：今日资金 + 5 日趋势 + 同板块基金 ----------------
+   只看单日净流入很容易追在脉冲上（实测：半导体概念今天 +39.8 亿，但前四个交易日
+   累计净流出约 -309 亿）。所以这里额外取每个候选板块最近 6 个交易日的资金流，
+   只有在「今日流入 + 5 日累计为正 + 至少 2 天净流入」时才列入可关注。
+   ------------------------------------------------------------ */
+
+const PICKS = { at: 0, data: null };
+
+async function fetchSectorHistory(boardCode, days) {
+  const filt = encodeURIComponent('(BOARD_CODE1="' + boardCode + '")');
+  const r = await sectorGet('&pageNumber=1&pageSize=' + (days || 6) +
+    '&sortColumns=TRADE_DATE&sortTypes=-1&filter=' + filt);
+  return (r.data || []).map((d) => ({
+    date: String(d.TRADE_DATE || '').slice(0, 10),
+    net: toNum(d.NET_INFLOW) * 1e4,
+    ratio: toNum(d.INFLOW_RATIO)
+  })).filter((x) => Number.isFinite(x.net));
+}
+
+/** 板块关键词 → 候选基金（指数型优先，规模 ≥ 0.5 亿，剔除净值异动） */
+async function fundsForSector(name) {
+  const key = String(name || '').replace(/(概念|板块|行业|指数)$/g, '');
+  if (!key) return [];
+  const list = await searchFunds(key).catch(() => []);
+  const codes = list.slice(0, 8).map((x) => x.code);
+  if (!codes.length) return [];
+  const navs = await fetchFundNav(codes).catch(() => ({}));
+  const arr = codes.map((c) => navs[c]).filter(Boolean)
+    .filter((x) => Number.isFinite(x.y1) && Number.isFinite(x.scale) && x.scale >= 5e7 && !x.abnormal);
+  arr.sort((a, b) => {
+    const pa = a.type === '指数型' ? 1 : 0, pb = b.type === '指数型' ? 1 : 0;
+    if (pa !== pb) return pb - pa;
+    return (b.y1 || -999) - (a.y1 || -999);
+  });
+  return arr.slice(0, 3);
+}
+
+async function buildSectorPicks() {
+  if (PICKS.data && Date.now() - PICKS.at < 300000) return PICKS.data;
+  const flow = await fetchSectorFlow();
+  const cands = (flow.inflow || []).slice(0, 8);
+  if (!cands.length) throw new Error('今日没有净流入板块');
+  const hists = await Promise.all(cands.map((s) => fetchSectorHistory(s.code, 6).catch(() => [])));
+
+  const rows = cands.map((s, i) => {
+    const h = hists[i] || [];
+    const last5 = h.slice(0, 5);
+    const sum5 = last5.reduce((a, x) => a + x.net, 0);
+    const posDays = last5.filter((x) => x.net > 0).length;
+    const confirmed = sum5 > 0 && posDays >= 2;
+    /* 反转强度：今天的流入 ÷ 前 4 天日均流出量；≥0.6 才算「反转候选」 */
+    const avgPrev = (sum5 - s.net) / 4;
+    const turnStrength = avgPrev < 0 ? s.net / Math.abs(avgPrev) : 1;
+    return Object.assign({}, s, {
+      hist: last5, sum5: sum5, posDays: posDays, confirmed: confirmed,
+      turn: !confirmed && turnStrength >= 0.6, turnStrength: turnStrength,
+      score: Math.round(
+        clamp(s.net / 5e9, 0, 1) * 30 +
+        clamp(s.ratio / 5, 0, 1) * 20 +
+        clamp(sum5 / 1e10, 0, 1) * 30 +
+        (posDays / 5) * 20
+      )
+    });
+  });
+
+  /* 排序：趋势确认 > 反转候选 > 其余，再按综合分 */
+  const tierOf = (r) => (r.confirmed ? 2 : r.turn ? 1 : 0);
+  rows.sort((a, b) => (tierOf(b) - tierOf(a)) || (b.score - a.score));
+  const top = rows.slice(0, 4);
+  const watch = rows.slice(4);
+
+  /* 只给「趋势确认 / 反转候选」配基金，最多 3 个板块，控制请求量 */
+  const withFunds = top.filter((s) => s.confirmed || s.turn).slice(0, 3);
+  const fundLists = await Promise.all(withFunds.map((s) => fundsForSector(s.name).catch(() => [])));
+  withFunds.forEach((s, i) => { s.funds = fundLists[i]; });
+
+  const data = {
+    date: flow.date, total: flow.total,
+    good: top.slice(0, 3), extra: top.slice(3), watch: watch, at: Date.now()
+  };
+  PICKS.at = Date.now();
+  PICKS.data = data;
+  return data;
+}
+
 /* ---------------- 5. 基金排行榜（datacenter RPT_FUND_RANK） ----------------
    1) 排序：sortColumns=<字段>&sortTypes=-1（降序）
    2) 类型：filter=(FUND_TYPE="股票") 这类写法，类型值是中文
@@ -3577,7 +3700,7 @@ async function renderPool(force) {
   const codes = UI.watch.slice();
   if (!codes.length) {
     if (tbl) tbl.innerHTML = '<thead><tr><th>名称</th><th>最新净值</th><th>日涨跌</th><th>近1月</th><th>近1年</th></tr></thead>' +
-      '<tbody><tr><td colspan="5" class="dim">还没有自选基金 —— 在 ⑦ 里添加，或在 ④ 搜索后点「加入自选」。</td></tr></tbody>';
+      '<tbody><tr><td colspan="5" class="dim">还没有自选基金 —— 在 ⑧ 里添加，或在 ⑤ 搜索后点「加入自选」。</td></tr></tbody>';
     if ($('poolCount')) $('poolCount').textContent = '0';
     if ($('poolUpDown')) $('poolUpDown').textContent = '--';
     if ($('poolAvg')) $('poolAvg').textContent = '--';
@@ -3661,7 +3784,7 @@ function fundTypeOf(code) {
   return '其他';
 }
 
-/* ---------------- ④ 净值技术面板（含右侧重仓股） ---------------- */
+/* ---------------- ⑤ 净值技术面板（含右侧重仓股） ---------------- */
 
 /** 取当前显示窗口的序列与指标（指标按完整历史计算，只做切片） */
 function displaySlice() {
@@ -3945,9 +4068,9 @@ function buildKlineHint() {
   return parts.join(' ');
 }
 
-/* ---------------- ⑤ 基金买卖分析（含基金档案） ---------------- */
+/* ---------------- ⑥ 基金买卖分析（含基金档案） ---------------- */
 
-/** 把当前序列算成一份完整分析结果（③④⑧ 共用） */
+/** 把当前序列算成一份完整分析结果（分析面板共用） */
 function analyzeNow() {
   if (!UI.candles.length || !UI.ind) return null;
   const candles = UI.candles, ind = UI.ind;
@@ -4010,7 +4133,7 @@ function renderAnalyze() {
     if (tag) tag.textContent = '--';
     if (card) card.className = 'advice neutral';
     if ($('adviceTitle')) $('adviceTitle').textContent = '等待载入基金';
-  if ($('adviceSub')) $('adviceSub').textContent = '在 ④ 里搜索并载入一只基金后，这里会自动生成分析。';
+  if ($('adviceSub')) $('adviceSub').textContent = '在 ⑤ 里搜索并载入一只基金后，这里会自动生成分析。';
     if ($('adviceList')) $('adviceList').innerHTML = '';
     ['srTable', 'indTable', 'shortList', 'midList', 'scoreTable', 'scoreAdvice', 'checkGood', 'checkBad', 'plainGrid', 'plainPrices', 'plainWhy'].forEach((id) => {
       const el = $(id);
@@ -4133,7 +4256,7 @@ function renderAnalyze() {
   }
 }
 
-/* ---------------- ⑥ 定投实验室 ---------------- */
+/* ---------------- ⑦ 定投实验室 ---------------- */
 
 function renderDCA() {
   const cards = $('dcaCards'), text = $('dcaText'), hint = $('dcaHint');
@@ -4178,7 +4301,7 @@ function renderDCA() {
     d.worstGap < -0.25 ? '波动大、回撤深，定投能明显摊薄成本，但需要能扛住 ' + pct(d.worstGap * 100, 0) + ' 级别的浮亏，适合长期定投。'
       : d.worstGap > -0.08 ? '波动很小，定投和一次性买入的差别不大，可以考虑直接分批买入省手续费。'
         : '波动中等，定投是稳妥选择，同时保留一笔资金在明显回撤时手动加投。'));
-  lines.push('<b>什么时候该停：</b>跌破 ⑤ 里的中线止损净值 ' + fmtNav(UI.analysis ? UI.analysis.plan.midStop : NaN) +
+  lines.push('<b>什么时候该停：</b>跌破 ⑥ 里的中线止损净值 ' + fmtNav(UI.analysis ? UI.analysis.plan.midStop : NaN) +
     '，或基金规模连续两个季度大幅缩水、基金经理更换时，先停下扣款、重新评估。');
   lines.push('<b>口径：</b>不含申购费与赎回费；按「' + basisLabel() + '」序列模拟扣款' +
     (UI.basis === 'adj' ? '，相当于分红自动再投，这是长期定投的真实收益口径' : '') +
@@ -4292,7 +4415,7 @@ async function renderHold() {
   renderAnalyze();
 }
 
-/* ---------------- ③ 板块资金流 ---------------- */
+/* ---------------- ④ 板块资金流 ---------------- */
 
 function sectorRowHtml(x, maxAbs) {
   const w = clamp((Math.abs(x.net) / (maxAbs || 1)) * 100, 2, 100);
@@ -4356,6 +4479,84 @@ async function renderSector() {
   }
 }
 
+/* ---------------- ③ 板块机会（可关注板块 + 建议基金） ---------------- */
+
+function pickSectorHtml(s) {
+  const badge = s.confirmed
+    ? '<span class="tag red">趋势确认 · ' + s.score + ' 分</span>'
+    : s.turn
+      ? '<span class="tag gold">反转候选 · ' + s.score + ' 分</span>'
+      : '<span class="tag orange">单日脉冲 · ' + s.score + ' 分</span>';
+  let fundsBlock;
+  if (s.funds && s.funds.length) {
+    fundsBlock = '<div class="hint" style="margin:9px 0 2px;">可选基金（点一下载入分析）</div>' +
+      '<div class="pick-funds">' + s.funds.map((f) => '<div class="pick-fund clickable" data-code="' + esc(f.code) + '">' +
+        '<span class="pf-name">' + esc(f.name) + '</span>' +
+        '<span class="pf-meta">' + esc(fundTypeText(f.type)) + ' · 近1年 ' + pct(f.y1) + ' · ' + fmtAmt(f.scale) + '</span>' +
+        '</div>').join('') + '</div>';
+  } else {
+    fundsBlock = '<div class="hint" style="margin-top:9px;">' +
+      (s.confirmed || s.turn ? '没找到匹配的场外基金（可能是纯概念板块）' : '趋势未确认，暂不给基金建议，先观察 2-3 天') +
+      '</div>';
+  }
+  return '<div class="card">' +
+    '<div class="card-head">' +
+      '<div class="card-title">' + esc(s.name) + '</div>' +
+      badge +
+    '</div>' +
+    '<div class="kv" style="margin-top:0;">' +
+      '<span>今日 <b class="up">+' + fmtAmt(s.net) + '</b></span>' +
+      '<span>净占比 <b>' + fmt(s.ratio, 2) + '%</b></span>' +
+      '<span>5日 <b class="' + (s.sum5 > 0 ? 'up' : 'down') + '">' + (s.sum5 > 0 ? '+' : '') + fmtAmt(s.sum5) + '</b></span>' +
+      '<span>流入 <b>' + s.posDays + '/5</b> 天</span>' +
+    '</div>' +
+    fundsBlock +
+    '</div>';
+}
+
+async function renderPicks() {
+  const grid = $('pickGrid'), hint = $('pickHint'), tag = $('pickTag');
+  const watchBox = $('pickWatch'), watchList = $('pickWatchList');
+  if (hint) hint.textContent = '正在综合资金流与 5 日趋势…';
+  let d;
+  try {
+    d = await buildSectorPicks();
+  } catch (e) {
+    if (hint) hint.textContent = '暂时算不出来：' + (e && e.message ? e.message : '未知错误') + '（可稍后刷新）';
+    if (grid) grid.innerHTML = '<div class="card"><div class="card-sub">板块资金接口不可用，稍后刷新再试。</div></div>';
+    if (tag) { tag.className = 'tag orange'; tag.textContent = '暂无数据'; }
+    if (watchBox) watchBox.style.display = 'none';
+    return;
+  }
+  if (tag) {
+    tag.className = 'tag gold';
+    const all = d.good.concat(d.extra || []);
+    const conf = all.filter((x) => x.confirmed).length;
+    const turn = all.filter((x) => x.turn).length;
+    tag.textContent = d.date + ' · 趋势确认 ' + conf + ' / 反转候选 ' + turn;
+  }
+  if (hint) {
+    hint.textContent = '数据日 ' + d.date + ' · 覆盖 ' + d.total + ' 个概念板块 · 更新于 ' +
+      new Date().toLocaleTimeString('zh-CN');
+  }
+  if (grid) {
+    const cards = d.good.concat(d.extra || []);
+    grid.innerHTML = cards.length
+      ? cards.map(pickSectorHtml).join('')
+      : '<div class="card" style="grid-column:1/-1;"><div class="card-sub">今天没有净流入的板块，按规则先观望。</div></div>';
+  }
+  if (watchBox && watchList) {
+    if (d.watch.length) {
+      watchBox.style.display = '';
+      watchList.innerHTML = d.watch.map((w) => '<div class="li"><span class="dot orange"></span><span><b>' +
+        esc(w.name) + '</b> 今日 +' + fmtAmt(w.net) + '，5 日 ' + (w.sum5 > 0 ? '+' : '') + fmtAmt(w.sum5) +
+        '，流入 ' + w.posDays + '/5 天 —— 单日脉冲，趋势未确认，先观察。</span></div>').join('');
+    } else {
+      watchBox.style.display = 'none';
+    }
+  }
+}
+
 /* ---------------- ② 基金排行 ---------------- */
 
 const RANK_SORT_LABEL = { '1yzf': '近1月', '3yzf': '近3月', '6yzf': '近6月', '1nzf': '近1年', 'jnzf': '今年来' };
@@ -4404,7 +4605,7 @@ async function renderRank(force) {
   }
 }
 
-/* ---------------- ⑦ 自选基金 ---------------- */
+/* ---------------- ⑧ 自选基金 ---------------- */
 
 function loadWatch() {
   try {
@@ -4437,7 +4638,7 @@ function renderWatchChips() {
   const el = $('watchChips');
   if (!el) return;
   if (!UI.watch.length) {
-    el.innerHTML = '<span class="hint">还没有自选基金。在 ④ 搜索后点「加入自选」，或在下面输入框里直接添加。</span>';
+    el.innerHTML = '<span class="hint">还没有自选基金。在 ⑤ 搜索后点「加入自选」，或在下面输入框里直接添加。</span>';
     return;
   }
   el.innerHTML = UI.watch.map((c) => {
@@ -5473,6 +5674,14 @@ function bindEvents() {
     const rm = ev.target.closest('[data-remove]');
     if (rm) { removeWatch(rm.getAttribute('data-remove')); renderWatch(true); renderPool(); return; }
 
+    /* 板块机会里点建议基金 → 载入并跳到净值面板 */
+    const pf = ev.target.closest('.pick-fund[data-code]');
+    if (pf) {
+      const c = pf.getAttribute('data-code');
+      loadFund(c).then(() => scrollToSection('sec-nav'));
+      return;
+    }
+
     const chip = ev.target.closest('.chip[data-code]');
     if (chip) { loadFund(chip.getAttribute('data-code')); return; }
 
@@ -5570,6 +5779,7 @@ async function init() {
   renderIndexCards();
   renderRank(false);
   renderSector();
+  renderPicks();
 
   const start = UI.watch.length ? UI.watch[0] : DEFAULT_FUND;
   await loadFund(start, { code: start });
