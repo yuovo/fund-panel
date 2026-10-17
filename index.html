@@ -2446,8 +2446,23 @@ async function fetchSectorHistory(boardCode, days) {
 async function fundsForSector(name) {
   const key = String(name || '').replace(/(概念|板块|行业|指数)$/g, '');
   if (!key) return [];
-  const list = await searchFunds(key).catch(() => []);
-  const codes = list.slice(0, 8).map((x) => x.code);
+  /**
+   * 搜索接口是模糊匹配：搜「低空经济」会返回一堆「数字经济」基金。
+   * 所以逐级缩短关键词（全名 → 前 3 字 → 前 2 字），并且**要求基金名里真的含有这个词**才采用。
+   */
+  const tokens = [];
+  [key.length, 3, 2].forEach((len) => {
+    const t = key.slice(0, len);
+    if (t.length >= 2 && tokens.indexOf(t) < 0) tokens.push(t);
+  });
+  let picks = [];
+  for (const tk of tokens) {
+    const list = await searchFunds(tk).catch(() => []);
+    const hit = list.filter((x) => tokens.some((t2) => String(x.name || '').includes(t2)));
+    if (hit.length) { picks = hit; break; }
+  }
+  if (!picks.length) return [];
+  const codes = picks.slice(0, 8).map((x) => x.code);
   if (!codes.length) return [];
   const navs = await fetchFundNav(codes).catch(() => ({}));
   const arr = codes.map((c) => navs[c]).filter(Boolean)
