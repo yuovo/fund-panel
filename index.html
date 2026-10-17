@@ -395,6 +395,41 @@ select.input{cursor:pointer;}
   .brand h1{font-size:15px;}
 }
 
+/* ============================================================
+   桌面视觉打磨 + 折叠 / 手机底部导航
+   ============================================================ */
+.panel{box-shadow:0 12px 32px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.025);}
+.panel-head h2{letter-spacing:.4px;}
+.card{transition:border-color .18s ease, background .18s ease, transform .18s ease;}
+.card:hover{border-color:var(--line2);}
+table.tbl tbody tr:nth-child(even){background:rgba(255,255,255,.014);}
+table.tbl tbody tr.clickable:hover{background:rgba(240,183,63,.10);}
+::-webkit-scrollbar{width:10px;height:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(140,156,182,.26);border-radius:6px;border:2px solid transparent;background-clip:padding-box;}
+::-webkit-scrollbar-thumb:hover{background:rgba(140,156,182,.45);background-clip:padding-box;}
+
+/* 折叠按钮 */
+.panel, .hold-side{position:relative;}
+.collapse-btn{
+  border:1px solid var(--line2);background:rgba(21,31,49,.7);color:var(--muted);
+  width:26px;height:24px;border-radius:7px;cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;justify-content:center;transition:.16s;
+  font-family:inherit;line-height:1;
+  position:absolute;top:12px;right:12px;
+}
+.collapse-btn:hover{border-color:var(--gold);color:var(--gold);}
+.collapse-btn .chev{display:block;font-size:11px;transition:transform .18s ease;}
+.panel.collapsed .collapse-btn .chev{transform:rotate(-90deg);}
+.panel-head{padding-right:32px;}
+.panel.collapsed > *:not(.panel-head),
+.hold-side.collapsed > *:not(.panel-head){display:none !important;}
+.panel.collapsed{padding-bottom:12px;}
+.hold-side.collapsed{padding-bottom:10px;}
+
+/* 手机底部标签栏（桌面隐藏） */
+.mnav{display:none;}
+
 /* ---------- 手机（≤760px）：压扁信息密度，把首屏让给数据 ---------- */
 @media (max-width:760px){
   body{font-size:13.5px;}
@@ -408,6 +443,8 @@ select.input{cursor:pointer;}
   .topbar-right .clock{font-size:11.5px;}
   #lastUpdate{display:none;}
   #refreshSel{flex:1 1 auto;min-width:0;}
+  /* 手机上顶部这排横向导航由底部标签栏替代 */
+  .navbar{display:none;}
   .panel{padding:12px 11px;border-radius:12px;}
   .panel-head{gap:6px;margin-bottom:10px;}
   .panel-head h2{font-size:14.5px;}
@@ -444,6 +481,28 @@ select.input{cursor:pointer;}
   table.tbl th, table.tbl td{padding:6px 8px;font-size:11.5px;}
   .plain-item{padding:8px 9px;}
   .hold-side{padding:10px;}
+
+  /* 快捷基金 chips 在手机上太占地方，先藏起来 */
+  #quickChips, #quickLabel{display:none;}
+
+  /* 底部标签栏 */
+  .mnav{
+    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:45;
+    padding:6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+    background:rgba(9,13,20,.95);backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+  }
+  .mnav a{
+    flex:1;text-align:center;padding:4px 2px;border-radius:9px;
+    color:var(--muted);border:0;background:none;
+  }
+  .mnav a b{display:block;font-size:12.5px;font-weight:700;}
+  .mnav a span{display:block;font-size:9.5px;color:var(--dim);margin-top:1px;}
+  .mnav a.on{background:var(--gold-bg);color:var(--gold);}
+  .mnav a.on span{color:rgba(240,183,63,.72);}
+
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom, 0px)) !important;}
+  #toTop{bottom:calc(78px + env(safe-area-inset-bottom, 0px)) !important;right:12px;}
 }
 </style>
 </head>
@@ -693,7 +752,7 @@ select.input{cursor:pointer;}
         <div class="suggest" id="suggestBox"></div>
       </div>
       <button class="btn primary" id="btnLoad">加载分析</button>
-      <span class="hint">快捷：</span>
+      <span class="hint" id="quickLabel">快捷：</span>
       <span id="quickChips" style="display:flex;gap:8px;flex-wrap:wrap;"></span>
     </div>
     <div class="hint" style="margin:0 0 8px;">
@@ -1039,6 +1098,16 @@ select.input{cursor:pointer;}
 
 <button class="btn" id="toTop" style="position:fixed;right:18px;bottom:20px;display:none;z-index:40;">↑ 顶部</button>
 
+<!-- 手机底部标签栏（桌面隐藏） -->
+<nav class="mnav" id="mnav">
+  <a href="#sec-pool" data-sec="sec-pool"><b>总览</b><span>指数 · 自选</span></a>
+  <a href="#sec-rank" data-sec="sec-rank"><b>排行</b><span>全市场</span></a>
+  <a href="#sec-picks" data-sec="sec-picks"><b>机会</b><span>板块 · 基金</span></a>
+  <a href="#sec-nav" data-sec="sec-nav"><b>净值</b><span>K线 · 指标</span></a>
+  <a href="#sec-analyze" data-sec="sec-analyze"><b>分析</b><span>评分 · 建议</span></a>
+  <a href="#sec-watch" data-sec="sec-watch"><b>自选</b><span>本地保存</span></a>
+</nav>
+
 <script>
 /* ============================================================
    基金实时技术分析面板 · 单文件实现
@@ -1069,6 +1138,9 @@ const colorCls = (v) => (v > 0 ? 'up' : v < 0 ? 'down' : 'flat');
 const pctCls = (v) => (Number.isFinite(v) ? colorCls(v) : 'flat');
 /** 区间限制 */
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+/** 手机判定 + 图表高度缩放（手机上图表矮一点，少滚几屏） */
+const isPhone = () => (typeof window !== 'undefined') && window.innerWidth <= 760;
+const chartH = (h) => Math.round(isPhone() ? h * 0.7 : h);
 const clamp1 = (v) => clamp(v, -1, 1);
 /** HTML 转义 */
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -3840,7 +3912,7 @@ function renderMinuteView() {
   });
   const base = Number.isFinite(UI.minuteBase) ? UI.minuteBase : (UI.quote ? UI.quote.prevClose : NaN);
   const est = !!UI.minuteEst;
-  drawMinute($('chartPrice'), UI.minuteData, base, { height: 430 });
+  drawMinute($('chartPrice'), UI.minuteData, base, { height: chartH(430) });
   if ($('klLegend')) {
     $('klLegend').innerHTML = '<span><i style="background:' + (est ? CLR.gold : CLR.blue) + '"></i>' +
       (est ? '重仓股等权估算分时' : '今日分时') + '</span>' +
@@ -4017,18 +4089,18 @@ function renderKline() {
     return;
   }
   drawPrice($('chartPrice'), disp.candles, disp.ind, {
-    height: 340, mode: UI.mode === 'exch' ? 'candle' : 'line',
+    height: chartH(340), mode: UI.mode === 'exch' ? 'candle' : 'line',
     showVol: UI.mode === 'exch', active: UI.active
   });
   /* 把窗口之前的历史最高净值传进去，保证副图与上方「当前回撤 / 最大回撤」同口径 */
   const ddOff = UI.candles.length - disp.candles.length;
   let ddPeak = -Infinity;
   for (let di = 0; di < ddOff; di++) { if (UI.candles[di].close > ddPeak) ddPeak = UI.candles[di].close; }
-  drawDrawdown($('chartDd'), disp.candles, { height: 110, active: UI.active, peakStart: ddPeak });
-  drawMACD($('chartMacd'), disp.candles, disp.ind, { height: 130, active: UI.active });
-  drawKDJ($('chartKdj'), disp.candles, disp.ind, { height: 130, active: UI.active });
-  drawRSI($('chartRsi'), disp.candles, disp.ind, { height: 126, active: UI.active });
-  if (UI.mode === 'exch') drawVolumeOnly($('chartVol'), disp.candles, { height: 92 });
+  drawDrawdown($('chartDd'), disp.candles, { height: chartH(110), active: UI.active, peakStart: ddPeak });
+  drawMACD($('chartMacd'), disp.candles, disp.ind, { height: chartH(130), active: UI.active });
+  drawKDJ($('chartKdj'), disp.candles, disp.ind, { height: chartH(130), active: UI.active });
+  drawRSI($('chartRsi'), disp.candles, disp.ind, { height: chartH(126), active: UI.active });
+  if (UI.mode === 'exch') drawVolumeOnly($('chartVol'), disp.candles, { height: chartH(92) });
 
   /* 副图标题上的状态标签 */
   const ind = UI.ind;
@@ -4305,7 +4377,7 @@ function renderDCA() {
   if ($('dcaChartSub')) {
     $('dcaChartSub').textContent = ymdText(d.from) + ' → ' + ymdText(d.to) + ' · 虚线 = 累计投入，实线 = 组合市值';
   }
-  drawDca($('dcaChart'), d.curve, { height: 220 });
+  drawDca($('dcaChart'), d.curve, { height: chartH(220) });
   const better = Number.isFinite(d.lumpPct) ? d.profitPct - d.lumpPct : NaN;
   const lines = [];
   lines.push('<b>定投 vs 一次性：</b>同一区间内一次性买入收益率 ' + pct(d.lumpPct * 100, 2) + '，定投 ' + pct(d.profitPct * 100, 2) +
@@ -5745,8 +5817,69 @@ function stickyOffset() {
 function scrollToSection(id) {
   const el = $(id);
   if (!el) return;
+  /* 目标区块如果被折叠了，先展开再滚过去 */
+  if (el.classList.contains('collapsed')) {
+    el.classList.remove('collapsed');
+    const b = el.querySelector('.collapse-btn');
+    if (b) b.setAttribute('aria-expanded', 'true');
+  }
   const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - stickyOffset() - 12);
   window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
+/** 给每个 panel 加「收起 / 展开」，手机上默认折叠几个超长的区块 */
+function initCollapsibles() {
+  Array.prototype.forEach.call(document.querySelectorAll('section.panel, aside.hold-side'), (sec) => {
+    const head = sec.querySelector('.panel-head');
+    if (!head) return;
+    let btn = head.querySelector('.collapse-btn');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.className = 'collapse-btn';
+      btn.type = 'button';
+      btn.title = '收起 / 展开';
+      btn.setAttribute('aria-expanded', 'true');
+      btn.innerHTML = '<span class="chev">▾</span>';
+      btn.addEventListener('click', () => {
+        const collapsed = sec.classList.toggle('collapsed');
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+      head.appendChild(btn);
+    }
+  });
+  if (isPhone()) {
+    ['sec-sector', 'sec-analyze', 'sec-dca', 'sec-method', 'sec-hold'].forEach((id) => {
+      const s = $(id);
+      if (!s) return;
+      s.classList.add('collapsed');
+      const b = s.querySelector('.collapse-btn');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
+}
+
+/** 手机底部标签栏：点击跳转 + 滚动高亮 */
+function initMobileNav() {
+  const nav = $('mnav');
+  if (!nav) return;
+  const links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+  nav.addEventListener('click', (ev) => {
+    const a = ev.target.closest('a[href^="#"]');
+    if (!a) return;
+    ev.preventDefault();
+    scrollToSection(String(a.getAttribute('href')).slice(1));
+  });
+  const sync = () => {
+    let cur = null;
+    links.forEach((a) => {
+      const el = $(a.getAttribute('data-sec'));
+      if (!el) return;
+      if (el.getBoundingClientRect().top <= 150) cur = a.getAttribute('data-sec');
+    });
+    links.forEach((a) => a.classList.toggle('on', a.getAttribute('data-sec') === cur));
+  };
+  window.addEventListener('scroll', sync, { passive: true });
+  sync();
 }
 
 function bindScrollSpy() {
@@ -5788,6 +5921,8 @@ async function init() {
   renderSourceStatus();
   bindEvents();
   bindHover();
+  initCollapsibles();
+  initMobileNav();
   renderPool();
   renderWatch();
   renderDCA();
