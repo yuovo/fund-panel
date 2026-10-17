@@ -2212,6 +2212,9 @@ function injectScript(url, charset, timeoutMs) {
   return new Promise((resolve) => {
     const s = document.createElement('script');
     if (charset) s.charset = charset;
+    /* 部分东财接口会校验 Referer：来自 github.io 等站点时直接返回 567，
+       而脚本请求带上 no-referrer 就等价于 file:// 打开（实测可用）。 */
+    if ('referrerPolicy' in s) s.referrerPolicy = 'no-referrer';
     let done = false;
     let timer = null;
     const fin = () => {
@@ -2250,6 +2253,7 @@ function jsonpCallback(url, charset, timeoutMs, param) {
     let done = false;
     const s = document.createElement('script');
     if (charset) s.charset = charset;
+    if ('referrerPolicy' in s) s.referrerPolicy = 'no-referrer';
     const timer = setTimeout(() => {
       if (done) return;
       done = true;
