@@ -4191,7 +4191,8 @@ function renderKline() {
   }
   const modeSegs = $('modeSegs');
   if (modeSegs) {
-    const canNav = !!UI.detail;
+    /* 详情没拿到但有基金代码时也允许点：切换时会就地补拉，而不是把按钮锁死 */
+    const canNav = !!(UI.detail || (UI.code && UI.assetKind === 'fund'));
     const canExch = !!(UI.isExch && UI.exchCode && UI.assetKind !== 'stock');
     modeSegs.style.display = (canNav || canExch) ? '' : 'none';
     const eb = modeSegs.querySelector('button[data-mode="exch"]');
@@ -5538,6 +5539,9 @@ async function loadExchTarget(exchCode) {
 function applyNavSeries() {
   const d = UI.detail;
   if (!d) throw new Error('未取到基金详情数据');
+  /* 之前这里漏了切模式：数据换成净值了，但 UI.mode 还是 'exch'，
+     图表继续按 K 线口径画，表现就是「点场外没反应」。 */
+  UI.mode = 'nav';
   let series = [];
   if (UI.basis === 'adj') series = buildAdjSeries(d.netWorth);
   else if (UI.basis === 'acc') series = d.acWorth;
@@ -5905,21 +5909,28 @@ function bindEvents() {
       if (!btn) return;
       const m = btn.getAttribute('data-mode');
       if (m === UI.mode) return;
-      /* 兜底：按钮被点到但数据不支持时，不要静默失败 */
-      if (m === 'exch' && (!UI.isExch || !UI.exchCode || UI.assetKind === 'stock')) return;
-      if (m === 'nav' && !UI.detail) return;
-      Array.prototype.forEach.call(modeSegs.querySelectorAll('button'), (b) => b.classList.toggle('on', b === btn));
       const h = $('klHint');
+      const prevMode = UI.mode;
+      const setActive = (mode) => {
+        Array.prototype.forEach.call(modeSegs.querySelectorAll('button'),
+          (b) => b.classList.toggle('on', b.getAttribute('data-mode') === mode));
+      };
+      setActive(m);
       try {
         if (m === 'exch') {
+          if (!UI.isExch || !UI.exchCode || UI.assetKind === 'stock') throw new Error('当前标的没有场内行情');
           await applyExchSeries(UI.exchCode);
         } else {
+          /* 详情缺失时就地补拉，而不是直接 return（之前这里会「点了没反应」） */
           if (!UI.detail && UI.code) {
             if (h) h.textContent = '正在取场外净值…';
             UI.detail = await getFundDetail(UI.code);
           }
+          if (!UI.detail) throw new Error('没取到这只基金的场外净值数据');
           applyNavSeries();
         }
+        /* 分时是上一种口径的数据，切口径后回到日线，避免「图表没变化」 */
+        if (UI.period === 'min') { UI.period = 'day'; syncPeriodSegs(); }
         UI.analysis = analyzeNow();
         runDca(false);
         renderKline();
@@ -5927,6 +5938,8 @@ function bindEvents() {
         renderDCA();
         renderHold();
       } catch (e) {
+        /* 失败就把高亮退回去，别让按钮显示成功但图表没变 */
+        setActive(prevMode);
         if (h) h.textContent = '切换口径失败：' + (e && e.message ? e.message : '未知错误');
       }
     });
